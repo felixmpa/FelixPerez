@@ -1,0 +1,24 @@
+@import "shared/variables";
+@import "shared/navbar";
+@import "shared/table";
+@import "shared/search";
+@import "shared/paginator";
+
+// Reset and base styles
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial sans-serif;
+  line-height: 1.6;
+  background: $secondary-color;
+  color: #000;
+}
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+}

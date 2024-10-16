@@ -1,0 +1,8 @@
+<SNavbar></SNavbar>
+<div class="container product-list-container">
+  <STable
+    [columns]="productColumns"
+    [rows]="productItems$() | mapItemsToRowsProps:productColumns"
+  ></STable>
+</div>
+

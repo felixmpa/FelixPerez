@@ -1,0 +1,31 @@
+<div class="pagination">
+
+  <div class="results">
+    <strong>{{ totalItems }}</strong> Resultados
+  </div>
+
+  <div class="items-per-page">
+    <select id="itemsPerPage" (change)="onItemsPerPageChange($event)">
+      <option value="5" [selected]="totalItemsPerPage === 5">5</option>
+      <option value="10" [selected]="totalItemsPerPage === 10">10</option>
+      <option value="20" [selected]="totalItemsPerPage === 20">20</option>
+      <option value="50" [selected]="totalItemsPerPage === 20">50</option>
+      <option value="100" [selected]="totalItemsPerPage === 20">100</option>
+    </select>
+  </div>
+
+</div>
+
+<div class="page-controls">
+  Página {{ currentPage }} de {{ totalPages }}
+  <button (click)="goToPage(1)" [disabled]="currentPage === 1">Primera</button>
+  <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1">Anterior</button>
+
+  <button *ngFor="let page of getPageRange()"
+          (click)="goToPage(page)" [class.active]="currentPage === page">
+    {{ page }}
+  </button>
+
+  <button (click)="goToPage(currentPage + 1)" [disabled]="currentPage === totalPages">Siguiente</button>
+  <button (click)="goToPage(totalPages)" [disabled]="currentPage === totalPages">Última</button>
+</div>

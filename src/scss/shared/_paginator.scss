@@ -1,0 +1,43 @@
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+}
+
+.results {
+  font-size: 14px;
+}
+
+.items-per-page {
+  select {
+    padding: 0.5rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+  }
+}
+
+.page-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 15px;
+  gap: 10px;
+}
+
+.page-controls button {
+  margin: 0 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.page-controls button.active {
+  font-weight: bold;
+  background-color: #000;
+  color: white;
+}
+
+.page-controls button[disabled] {
+  background-color: $secondary-color;
+  cursor: not-allowed;
+}

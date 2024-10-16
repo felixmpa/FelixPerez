@@ -1,0 +1,40 @@
+<div class="stable-container">
+  <!--Search-->
+  <SSearch (searchTermChange)="onSearchTermChange($event)"></SSearch>
+
+  <!--Table-->
+  <table class="stable">
+    <thead>
+      <tr>
+        <th *ngFor="let column of columns">
+          {{ column.label }}
+          <ng-icon *ngIf="column.title" [title]="column.title" name="heroInformationCircle"></ng-icon>
+        </th>
+      </tr>
+    </thead>
+    <tbody *ngIf="paginatedRows.length > 0; else emptyState">
+      <tr *ngFor="let row of paginatedRows">
+        <td *ngFor="let column of columns">
+          <div *ngIf="column.isImage; else rawData" class="logo">
+            <img [src]="row[column.field]" [alt]="column.label" />
+          </div>
+          <ng-template #rawData>{{ formatValue(row[column.field]) }}</ng-template>
+        </td>
+      </tr>
+    </tbody>
+    <ng-template #emptyState>
+      <tr>
+        <td [colSpan]="columns.length">No data available in table.</td>
+      </tr>
+    </ng-template>
+  </table>
+
+  <!--Paginator-->
+  <SPaginator
+    [totalItems]="totalItems"
+    [totalItemsPerPage]="totalItemsPerPage"
+    [currentPage]="currentPage"
+    (pageChange)="onPageChange($event)"
+    (totalItemsPerPageChange)="onItemsPerPageChange($event)"
+  ></SPaginator>
+</div>
