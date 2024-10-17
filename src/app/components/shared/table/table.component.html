@@ -1,6 +1,21 @@
+
 <div class="stable-container">
-  <!--Search-->
-  <SSearch (searchTermChange)="onSearchTermChange($event)"></SSearch>
+
+  <!--Search and Button in a Flex Container-->
+  <div class="search-button-wrapper">
+    <!--Search-->
+    <div class="search-container">
+      <SSearch *ngIf="showInputSearch" (searchTermChange)="onSearchTermChange($event)"></SSearch>
+    </div>
+
+    <!--Button Create-->
+    <div class="button-container" *ngIf="getButtonByAction('create')">
+      <a [href]="getButtonByAction('create')?.href" class="btn-add">
+        {{ getButtonByAction('create')?.label }}
+      </a>
+    </div>
+
+  </div>
 
   <!--Table-->
   <table class="stable">
@@ -13,18 +28,47 @@
       </tr>
     </thead>
     <tbody *ngIf="paginatedRows.length > 0; else emptyState">
-      <tr *ngFor="let row of paginatedRows">
+      <tr *ngFor="let row of paginatedRows; let i = index">
         <td *ngFor="let column of columns">
-          <div *ngIf="column.isImage; else rawData" class="logo">
+
+          <div *ngIf="column.isImage; else actionOrRawData" class="logo">
             <img [src]="row[column.field]" [alt]="column.label" />
           </div>
+
+          <ng-template #actionOrRawData>
+            <ng-container *ngIf="column.isAction; else rawData">
+              <div class="dropdown">
+                <button class="dropdown-toggle" (click)="toggleDropdown(i)">
+                  <ng-icon name="heroEllipsisVertical"></ng-icon>
+                </button>
+
+                <!-- Dropdown menu -->
+                <div *ngIf="isActionDropdownOpenForRow(i)" class="dropdown-menu">
+                  <a *ngIf="getButtonByAction('edit')"
+                     [href]="getButtonByAction('edit')?.href + '/' + row[column.field]"
+                     class="btn-action">
+                    {{ getButtonByAction('edit')?.label }}
+                  </a>
+                  <a *ngIf="getButtonByAction('delete')"
+                     (click)="openDeleteModal(getSafeValue(row['id']), getSafeValue(row['name']));toggleDropdown(i);"
+                     class="btn-action">
+                    {{ getButtonByAction('delete')?.label }}
+                  </a>
+                </div>
+              </div>
+            </ng-container>
+          </ng-template>
+
+
           <ng-template #rawData>{{ formatValue(row[column.field]) }}</ng-template>
         </td>
       </tr>
     </tbody>
     <ng-template #emptyState>
-      <tr>
-        <td [colSpan]="columns.length">No data available in table.</td>
+      <tr *ngIf="paginatedRows.length === 0">
+        <td [attr.colspan]="columns.length" class="no-data-cell">
+          No hay datos disponibles en la tabla.
+        </td>
       </tr>
     </ng-template>
   </table>
@@ -37,4 +81,14 @@
     (pageChange)="onPageChange($event)"
     (totalItemsPerPageChange)="onItemsPerPageChange($event)"
   ></SPaginator>
+
+  <!--Modal-->
+  <SModal
+    #deleteModal
+    [title]="'Confirmación de Eliminación'"
+    [confirmButtonText]="'Confirmar'"
+    [cancelButtonText]="'Cancelar'"
+    (confirm)="onDeleteConfirm($event)">
+  </SModal>
+
 </div>

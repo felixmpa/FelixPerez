@@ -1,0 +1,17 @@
+<div class="modal-overlay" *ngIf="isVisible"></div>
+
+<div class="modal" *ngIf="isVisible">
+  <div class="modal-header">
+    <h3>{{ title }}</h3>
+    <button class="close-button" (click)="closeModal()">&#x2715;</button>
+  </div>
+
+  <div class="modal-body">
+    <p>{{ message }}</p> <!-- Dynamic message content -->
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn-cancel" (click)="onCancel()">{{ cancelButtonText }}</button>
+    <button class="btn-confirm" (click)="onConfirm()">{{ confirmButtonText }}</button>
+  </div>
+</div>

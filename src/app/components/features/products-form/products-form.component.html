@@ -1,0 +1,96 @@
+<SNavbar></SNavbar>
+
+<SNotification *ngIf="formSubmittedMessage !== ''" [message]="formSubmittedMessage" [type]="formSubmittedStatus"></SNotification>
+
+<div class="container box custom-margin-top">
+
+  <div class="form-group">
+    <a type="reset" routerLink="/">
+      <ng-icon name="heroArrowUturnLeft"></ng-icon> Volver
+    </a>
+  </div>
+
+  <div class="form-container">
+    <h2>Formulario de Registro</h2>
+
+
+    <form [formGroup]="productRegistration" (ngSubmit)="onSubmit()">
+
+      <div class="form-row">
+        <div class="form-group" [ngClass]="{'has-error': isFieldInvalid('id')}">
+          <label for="id">ID</label>
+          <input type="text"
+                 id="id"
+                 name="id"
+                 placeholder="ID"
+                 formControlName="id"
+          />
+          <span *ngIf="productRegistration.controls['id'].pending">Validando ID...</span>
+          <span *ngIf="isFieldInvalid('id')" class="error">{{ showFieldCustomError('id')}}</span>
+        </div>
+        <div class="form-group" [ngClass]="{'has-error': isFieldInvalid('name')}">
+          <label for="name">Nombre</label>
+          <input type="text"
+                 id="name"
+                 name="name"
+                 placeholder="Tarjeta Crédito"
+                 formControlName="name"
+          />
+          <span *ngIf="isFieldInvalid('name')" class="error">{{ showFieldCustomError('name')}}</span>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group" [ngClass]="{'has-error': isFieldInvalid('description')}">
+          <label for="description">Descripción</label>
+          <input type="text"
+                 id="description"
+                 name="description"
+                 placeholder="Descripción"
+                 formControlName="description"
+          />
+          <span *ngIf="isFieldInvalid('description')" class="error">{{ showFieldCustomError('description')}}</span>
+        </div>
+        <div class="form-group" [ngClass]="{'has-error': isFieldInvalid('logo')}">
+          <label for="logo">Logo (Image URL)</label>
+          <input type="text"
+                 id="logo"
+                 name="logo"
+                 placeholder="Enlace"
+                 formControlName="logo"
+          />
+          <span *ngIf="isFieldInvalid('logo')" class="error">{{ showFieldCustomError('logo')}}</span>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group" [ngClass]="{'has-error': isFieldInvalid('date_release')}">
+          <label for="date_release">Fecha Liberación</label>
+          <input type="date"
+                 id="date_release"
+                 name="date_release"
+                 formControlName="date_release"
+          />
+          <span *ngIf="isFieldInvalid('date_release')" class="error">{{ showFieldCustomError('date_release')}}</span>
+        </div>
+        <div class="form-group" [ngClass]="{'has-error': isFieldInvalid('date_revision')}">
+          <label for="date_revision">Fecha Liberación</label>
+          <input type="date"
+                 id="date_revision"
+                 name="date_revision"
+                 formControlName="date_revision"
+          />
+          <span *ngIf="isFieldInvalid('date_revision')" class="error">{{ showFieldCustomError('date_revision')}}</span>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="reset" (click)="resetForm()" class="btn btn-secondary">Reiniciar</button>
+        <button type="submit" class="btn btn-primary">Enviar</button>
+      </div>
+
+    </form>
+  </div>
+
+</div>
+

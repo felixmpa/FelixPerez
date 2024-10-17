@@ -1,17 +1,66 @@
 .stable-container {
-  background-color: $primary-color;
-  width: 100%;
-  overflow-x: auto;
-  padding: 1rem;
+  position: relative;
+
+  .search-button-wrapper {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      gap: 10px;
+    }
+  }
+
+  .search-container {
+    flex: 1;
+  }
+
+  .button-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    @media (max-width: 768px) {
+      justify-content: center;
+    }
+  }
+
+  .btn-add {
+    background-color: $bp-color;
+    color: #000;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    text-decoration: none;
+
+    &:hover {
+      background-color: $bp-color-dark;
+    }
+
+    @media (max-width: 768px) {
+      width: 100%;
+      font-size: 14px;
+    }
+  }
+
+  .stable {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: $primary-color;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+    @media (max-width: 768px) {
+      font-size: 12px;
+    }
+  }
 }
 
-.stable {
-  width: 100%;
-  border-collapse: collapse;
-  background-color: $primary-color;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
 
 .stable thead {
   tr {
@@ -28,6 +77,12 @@
         margin-left: 5px;
         font-size: 12px;
         color: #888;
+      }
+
+      /* Adjust padding for smaller screens */
+      @media (max-width: 768px) {
+        padding: 0.5rem;
+        font-size: 12px;
       }
     }
   }
@@ -57,10 +112,66 @@
       .logo img {
         width: 100%;
         height: 100%;
-        object-fit: cover;  /* Ensure the image covers the entire circle */
-        border-radius: 50%;  /* Keep the circular shape */
+        object-fit: cover;
+        border-radius: 50%;
       }
 
+      /* Adjust padding and font size for mobile */
+      @media (max-width: 768px) {
+        padding: 0.5rem;
+        font-size: 12px;
+      }
     }
   }
 }
+
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+
+  .dropdown-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    font-size: 18px;
+    color: #333;
+
+    &:hover {
+      color: #000;
+    }
+  }
+
+  .dropdown-menu {
+    display: block;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: $primary-color;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    padding: 10px;
+    min-width: 120px;
+    z-index: 1;
+
+    a.btn-action {
+      display: block;
+      padding: 8px 12px;
+      color: #000;
+      text-decoration: none;
+      cursor: pointer;
+
+      &:hover {
+        background-color: $bp-color-dark;
+      }
+    }
+  }
+}
+
+.no-data-cell {
+  text-align: center;
+  padding: 2rem;
+  color: #555;
+}
+

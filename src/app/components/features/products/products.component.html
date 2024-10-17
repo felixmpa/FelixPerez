@@ -1,8 +1,13 @@
 <SNavbar></SNavbar>
-<div class="container product-list-container">
+
+<SNotification *ngIf="productDeleteMessage !== ''" [message]="productDeleteMessage" [type]="productDeletedStatus"></SNotification>
+
+<div class="container box custom-margin-top">
   <STable
-    [columns]="productColumns"
-    [rows]="productItems$() | mapItemsToRowsProps:productColumns"
+      [columns]="productColumns"
+      [rows]="productItems$() | mapItemsToRowsProps:productColumns"
+      [buttons]="buttons"
+      (deleteConfirmed)="onProductDelete($event)"
   ></STable>
 </div>
 

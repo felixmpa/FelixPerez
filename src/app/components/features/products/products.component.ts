@@ -2,11 +2,13 @@ import {Component, computed, effect, Injector, OnInit, signal, Signal, WritableS
 import {NavbarComponent} from '../../shared/navbar/navbar.component';
 import {
   STableComponent,
-  STableColumnsProps
+  STableColumnsProps, STableBtnProps
 } from '../../shared/table/table.component';
 import {ProductService} from '../../../../services/product.service';
 import {Product} from '../../../../interfaces/product';
 import {MapItemsToRowsPropsPipe} from '../../shared/pipe/table-map-items.pipe';
+import {NgIf} from '@angular/common';
+import {NotificationComponent} from '../../shared/notification/notification.component';
 
 @Component({
   selector: 'app-products',
@@ -14,15 +16,19 @@ import {MapItemsToRowsPropsPipe} from '../../shared/pipe/table-map-items.pipe';
   imports: [
     NavbarComponent,
     STableComponent,
-    MapItemsToRowsPropsPipe
+    MapItemsToRowsPropsPipe,
+    NgIf,
+    NotificationComponent
   ],
   templateUrl: './products.component.html',
   styleUrl: './products.component.scss'
 })
 export class ProductsComponent implements OnInit {
 
-  isLoading$: WritableSignal<boolean> = signal<boolean>(true);
+  productDeleteMessage: string = '';
+  productDeletedStatus: 'success' | 'error' = 'success';
 
+  isLoading$: WritableSignal<boolean> = signal<boolean>(true);
   productItems$: WritableSignal<Product[]> = signal<Product[]>([]);
 
   productColumns: STableColumnsProps[] = [
@@ -30,7 +36,26 @@ export class ProductsComponent implements OnInit {
     {field: 'name', label: 'Nombre del producto'},
     {field: 'description', label: 'Descripción', title: 'Title for Description'},
     {field: 'date_release', label: 'Fecha de liberación'},
-    {field: 'date_revision', label: 'Fecha de reestructuración'}
+    {field: 'date_revision', label: 'Fecha de reestructuración'},
+    {field: 'id', label: '', isAction: true }
+  ];
+
+  buttons: STableBtnProps[] = [
+    {
+      label: 'Agregar',
+      href: '/products/create',
+      action: 'create'
+    },
+    {
+      label: 'Editar',
+      href: '/products/edit',
+      action: 'edit'
+    },
+    {
+      label: 'Borrar',
+      href: '#!',
+      action: 'delete'
+    }
   ];
 
   constructor(
@@ -38,12 +63,11 @@ export class ProductsComponent implements OnInit {
     private injector: Injector) {}
 
   ngOnInit() {
-    this.loadProducts()
+    this.fetchProducts()
   }
 
-  loadProducts(): void {
+  fetchProducts(): void {
     effect(async () => {
-      //Show skeleton
       this.isLoading$.set(true);
       try {
         const products = await this.productService.getProducts();
@@ -54,7 +78,17 @@ export class ProductsComponent implements OnInit {
     }, {injector: this.injector, allowSignalWrites: true})
   }
 
-
-
+  onProductDelete(productId: string | number): void {
+    if(productId) {
+      this.productService.deleteProduct(productId.toString()).then((res) => {
+        this.productDeleteMessage = 'Producto eliminado correctamente!';
+        this.productDeletedStatus = 'success'
+        this.fetchProducts();
+      }).catch((err) => {
+        this.productDeleteMessage = 'Error al borrar el producto.';
+        this.productDeletedStatus = 'error';
+      })
+    }
+  }
 
 }

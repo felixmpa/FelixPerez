@@ -3,10 +3,20 @@
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 10px;
+  }
 }
 
 .results {
   font-size: 14px;
+
+  @media (max-width: 768px) {
+    font-size: 12px;
+    text-align: center;
+  }
 }
 
 .items-per-page {
@@ -14,6 +24,10 @@
     padding: 0.5rem;
     border-radius: 4px;
     border: 1px solid #ccc;
+
+    @media (max-width: 768px) {
+      padding: 0.3rem;
+    }
   }
 }
 
@@ -23,12 +37,31 @@
   align-items: center;
   margin-top: 15px;
   gap: 10px;
+
+  @media (max-width: 768px) {
+    gap: 5px;
+  }
+
+  @media (max-width: 480px) {
+    flex-wrap: wrap;
+    gap: 3px;
+  }
 }
 
 .page-controls button {
   margin: 0 5px;
   padding: 5px 10px;
   cursor: pointer;
+
+  @media (max-width: 768px) {
+    padding: 4px 8px;
+    font-size: 12px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 3px 6px;
+    font-size: 10px;
+  }
 }
 
 .page-controls button.active {
